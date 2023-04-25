@@ -19,7 +19,7 @@ class Target(object):
   
   def __init__(self):
     self.image = pick_one()
-    self.rect = self.image.get_rect(topleft = (random_generator_x, random_generator_y))
+    self.rect = self.image.get_rect(center = (random_generator_x, random_generator_y))
     
 def pick_one():
   
@@ -35,6 +35,9 @@ pygame.init()
 
 fps = 60
 clock = pygame.time.Clock()
+
+# Mouse setings
+pygame.mouse.set_visible(False)
 
 # Window settings 
 
@@ -52,10 +55,6 @@ random_generator_y = random.randint(70, (screen_height - 70))
 print(random_generator_x, random_generator_y)
 
 # Images
-
-# target_image = pygame.image.load("img/target1.png")
-# target_image_rect = target_image.get_rect()
-# target_image_rect.center = (random_generator_x, random_generator_y)
 
 background_image = pygame.image.load("img/Jungle1.jpg")
 background_image_rect = background_image.get_rect()
@@ -77,9 +76,14 @@ while running_flag:
       running_flag = False
       
     if event.type == pygame.MOUSEBUTTONDOWN:
-      # click_x = event.pos[0]
-      # click_y = event.pos[1]
-      print("Something")
+      click_x = event.pos[0]
+      click_y = event.pos[1]
+      
+      if target.rect.collidepoint(click_x, click_y):
+        random_generator_x = random.randint(70, (screen_width - 70))
+        random_generator_y = random.randint(70, (screen_height - 70))
+        target = Target()
+        
 
   # Aiming
   player.aim()
