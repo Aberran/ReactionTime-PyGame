@@ -7,8 +7,8 @@ class Player(object):
   
   
   def __init__(self):
-    self.image = pygame.image.load("img/crosshair2-600.png")
-    self.rect = self.image.get_rect(center = (half_screen_width, half_screen_height))
+    self.image = player_image
+    self.rect = make_rect(player_image, half_screen_width, half_screen_height)
   
   def aim(self):
     self.rect.center = pygame.mouse.get_pos()
@@ -19,8 +19,23 @@ class Target(object):
   
   def __init__(self):
     self.image = pick_one()
-    self.rect = self.image.get_rect(center = (random_generator_x, random_generator_y))
+    self.rect = make_rect(self.image, random_generator_x, random_generator_y)
+
+# Window settings 
+
+screen_width = 1200
+screen_height = 700
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption("Reaction Time")  
+
+# VARIABLES
+
+player_image = pygame.image.load("img/crosshair2-600.png")
+background_image = pygame.image.load("img/Jungle1.jpg")
+half_screen_width = screen_width//2
+half_screen_height = screen_height//2  
     
+# function which will pick target picture
 def pick_one():
   
   # Rozhodovaci list ci bude target dobry alebo zly 1 good 0 bad
@@ -31,35 +46,33 @@ def pick_one():
   else:
     return pygame.image.load("img/target2.png")
 
+# Rect crefting funcion
+
+def make_rect(image, x, y):
+  img_rect = image.get_rect()
+  img_rect.center = (x, y)
+  return img_rect
+
+# Background image 
+
+background_image_rect = make_rect(background_image, half_screen_width, half_screen_height)
+
+# Initiate game 
+
 pygame.init()
 
 fps = 60
 clock = pygame.time.Clock()
 
 # Mouse setings
+
 pygame.mouse.set_visible(False)
-
-# Window settings 
-
-screen_width = 1200
-screen_height = 700
-half_screen_width = screen_width//2
-half_screen_height = screen_height//2
-screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("Reaction Time")
 
 # Game setup
 
 random_generator_x = random.randint(70, (screen_width - 70))
 random_generator_y = random.randint(70, (screen_height - 70))
 print(random_generator_x, random_generator_y)
-
-# Images
-
-background_image = pygame.image.load("img/Jungle1.jpg")
-background_image_rect = background_image.get_rect()
-background_image_rect.center = (half_screen_width, half_screen_height)
-
 
 # Creating player and targets objects
 
@@ -88,7 +101,7 @@ while running_flag:
   # Aiming
   player.aim()
   
-  # images
+  # draw images
   screen.blit(background_image, background_image_rect)
   screen.blit(target.image, target.rect)
   screen.blit(player.image, player.rect)
