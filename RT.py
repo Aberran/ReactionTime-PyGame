@@ -18,12 +18,18 @@ class Target(object):
   
   
   def __init__(self):
-    self.image = pygame.image.load("img/target1.png")
+    self.image = pick_one()
     self.rect = self.image.get_rect(topleft = (random_generator_x, random_generator_y))
     
-  def pick_one(self):
-    
-    
+def pick_one():
+  
+  # Rozhodovaci list ci bude target dobry alebo zly 1 good 0 bad
+  choice_gen_list = [1,1,1,1,1,1,0]
+  choice = random.choice(choice_gen_list)
+  if choice == 1:
+    return pygame.image.load("img/target1.png")
+  else:
+    return pygame.image.load("img/target2.png")
 
 pygame.init()
 
@@ -47,18 +53,19 @@ print(random_generator_x, random_generator_y)
 
 # Images
 
-target_image = pygame.image.load("img/target1.png")
-target_image_rect = target_image.get_rect()
-target_image_rect.center = (random_generator_x, random_generator_y)
+# target_image = pygame.image.load("img/target1.png")
+# target_image_rect = target_image.get_rect()
+# target_image_rect.center = (random_generator_x, random_generator_y)
 
 background_image = pygame.image.load("img/Jungle1.jpg")
-background_image_rect = target_image.get_rect()
-background_image_rect.center = (0, 0)
+background_image_rect = background_image.get_rect()
+background_image_rect.center = (half_screen_width, half_screen_height)
 
 
-# Creating player object
+# Creating player and targets objects
 
 player = Player()
+target = Target()
 
 # Main loop
 
@@ -79,7 +86,7 @@ while running_flag:
   
   # images
   screen.blit(background_image, background_image_rect)
-  screen.blit(target_image, target_image_rect)
+  screen.blit(target.image, target.rect)
   screen.blit(player.image, player.rect)
   
   # Screen update
