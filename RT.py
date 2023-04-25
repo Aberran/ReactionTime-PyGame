@@ -1,26 +1,45 @@
-import pygame 
-import sys
+import pygame
 
-# Basics of game 
+# Basics of the game 
 
 pygame.init()
+
+fps = 60
 clock = pygame.time.Clock()
+
+# Window settings 
+
 screen_width = 800
 screen_height = 800
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Reaction Time")
 
+# Images
+
+target_image = pygame.image.load("img/target1.png")
+target_image_rect = target_image.get_rect()
+target_image_rect.center = (screen_width//2, screen_height//2)
+
 # Main loop
 
-lets_continue = True
+running_flag = True
 
-while lets_continue:
+while running_flag:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
-      lets_continue = False
+      running_flag = False
       
       if event.type == pygame.MOUSEBUTTONDOWN:
-        click_x = event.pos[0]
-        click_y = event.pos[1]
-        
-        
+        # click_x = event.pos[0]
+        # click_y = event.pos[1]
+        print("Something")
+
+  # images
+  screen.blit(target_image, target_image_rect)
+  
+  # Screen update
+  pygame.display.update()
+
+  # slowing cycle
+  clock.tick(fps)
+       
