@@ -41,11 +41,11 @@ background_image = pygame.image.load("img/Jungle1.jpg")
 half_screen_width = screen_width//2
 half_screen_height = screen_height//2  
 
-score = 0
+bullets_counter = 15
 
 # Colors
 
-white = pygame.Color("#938f0c")
+whitec = pygame.Color("#938f0c")
 
 # Fonts
 
@@ -54,9 +54,9 @@ font_middle = pygame.font.Font("fonts/FFF_Tusj.ttf", 30)
 
 # Texts
 
-score_text = font_middle.render(f"Skore: {score}", True, white)
-score_text_rect = score_text.get_rect()
-score_text_rect.topright = (screen_width - 30, 20)
+bullet_counter_text = font_big.render(f"Skore: {bullets_counter}", True, "white")
+bullet_counter_text_rect = bullet_counter_text.get_rect()
+bullet_counter_text_rect.topright = (screen_width - 30, 20)
     
 # function which will pick target picture
 def pick_one():
@@ -110,14 +110,16 @@ while running_flag:
       if event.type == pygame.MOUSEBUTTONDOWN:
         click_x = event.pos[0]
         click_y = event.pos[1]
+        bullets_counter -= 1
         
         if target.rect.collidepoint(click_x, click_y):
           random_generator_x = random.randint(70, (screen_width - 70))
           random_generator_y = random.randint(70, (screen_height - 70))
           target = Target()
-  
-  screen.blit(score_text, score_text_rect)
 
+  # Update bullets counter text 
+  bullet_counter_text = font_big.render(f"Skore: {bullets_counter}", True, "white")
+  
   # Aiming
   player.aim()
   
@@ -125,6 +127,7 @@ while running_flag:
   screen.blit(background_image, background_image_rect)
   screen.blit(target.image, target.rect)
   screen.blit(player.image, player.rect)
+  screen.blit(bullet_counter_text, bullet_counter_text_rect)
   
   # Screen update
   pygame.display.update()
