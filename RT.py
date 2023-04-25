@@ -2,6 +2,14 @@ import pygame
 
 # Basics of the game 
 
+class Player(object):
+  
+  
+  def __init__(self):
+    self.image = pygame.image.load("img/Crosshair.png")
+    self.rect = self.image.get_rect(center = (screen_width/2, screen_height/2))
+    
+
 pygame.init()
 
 fps = 60
@@ -20,6 +28,10 @@ target_image = pygame.image.load("img/target1.png")
 target_image_rect = target_image.get_rect()
 target_image_rect.center = (screen_width//2, screen_height//2)
 
+# Creating player object
+
+player = Player()
+
 # Main loop
 
 running_flag = True
@@ -35,6 +47,7 @@ while running_flag:
       print("Something")
 
   # images
+  screen.blit(player.image, player.rect)
   screen.blit(target_image, target_image_rect)
   
   # Screen update
