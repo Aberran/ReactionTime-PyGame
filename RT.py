@@ -1,6 +1,12 @@
 import pygame
 import random
 
+
+# Initiate game 
+
+pygame.init()
+
+
 # Basics of the game 
 
 class Player(object):
@@ -34,6 +40,23 @@ player_image = pygame.image.load("img/crosshair2-600.png")
 background_image = pygame.image.load("img/Jungle1.jpg")
 half_screen_width = screen_width//2
 half_screen_height = screen_height//2  
+
+score = 0
+
+# Colors
+
+white = pygame.Color("#938f0c")
+
+# Fonts
+
+font_big = pygame.font.Font("fonts/FFF_Tusj.ttf", 50)
+font_middle = pygame.font.Font("fonts/FFF_Tusj.ttf", 30)
+
+# Texts
+
+score_text = font_middle.render(f"Skore: {score}", True, white)
+score_text_rect = score_text.get_rect()
+score_text_rect.topright = (screen_width - 30, 20)
     
 # function which will pick target picture
 def pick_one():
@@ -56,10 +79,6 @@ def make_rect(image, x, y):
 # Background image 
 
 background_image_rect = make_rect(background_image, half_screen_width, half_screen_height)
-
-# Initiate game 
-
-pygame.init()
 
 fps = 60
 clock = pygame.time.Clock()
@@ -85,18 +104,19 @@ running_flag = True
 
 while running_flag:
   for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-      running_flag = False
+      if event.type == pygame.QUIT:
+        running_flag = False
       
-    if event.type == pygame.MOUSEBUTTONDOWN:
-      click_x = event.pos[0]
-      click_y = event.pos[1]
-      
-      if target.rect.collidepoint(click_x, click_y):
-        random_generator_x = random.randint(70, (screen_width - 70))
-        random_generator_y = random.randint(70, (screen_height - 70))
-        target = Target()
+      if event.type == pygame.MOUSEBUTTONDOWN:
+        click_x = event.pos[0]
+        click_y = event.pos[1]
         
+        if target.rect.collidepoint(click_x, click_y):
+          random_generator_x = random.randint(70, (screen_width - 70))
+          random_generator_y = random.randint(70, (screen_height - 70))
+          target = Target()
+  
+  screen.blit(score_text, score_text_rect)
 
   # Aiming
   player.aim()
@@ -111,3 +131,10 @@ while running_flag:
 
   # slowing cycle
   clock.tick(fps)
+  
+  # functions from main loop
+  def event_checker():
+    pass
+
+pygame.quit()
+
