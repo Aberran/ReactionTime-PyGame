@@ -29,10 +29,10 @@ while running_flag:
     if event.type == pygame.QUIT:
       running_flag = False
       
-      if event.type == pygame.MOUSEBUTTONDOWN:
-        # click_x = event.pos[0]
-        # click_y = event.pos[1]
-        print("Something")
+    if event.type == pygame.MOUSEBUTTONDOWN:
+      # click_x = event.pos[0]
+      # click_y = event.pos[1]
+      print("Something")
 
   # images
   screen.blit(target_image, target_image_rect)
