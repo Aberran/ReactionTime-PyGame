@@ -19,7 +19,11 @@ class Target(object):
   
   def __init__(self):
     self.image = pygame.image.load("img/target1.png")
-    self.rect = self.image.get_rect(topleft = (random.choice(20, screen_width - 20), 0))
+    self.rect = self.image.get_rect(topleft = (random_generator_x, random_generator_y))
+    
+  def pick_one(self):
+    
+    
 
 pygame.init()
 
