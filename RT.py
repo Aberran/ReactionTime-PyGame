@@ -1,6 +1,5 @@
 import pygame
 import random
-import time
 
 # Initiate game 
 
@@ -40,11 +39,11 @@ background_image = pygame.image.load("img/Jungle1.jpg")
 half_screen_width = screen_width//2
 half_screen_height = screen_height//2  
 
-last_click_time = 0
-current_click_time = 0
+last_hit_time = 0
+current_hit_time = 0
 
 bullets_counter = 15
-time_since_last_click = 0
+time_since_last_hit = 0
 
 # Colors
 
@@ -61,9 +60,9 @@ bullet_counter_text = font_big.render(f"Bullets left: {bullets_counter}", True, 
 bullet_counter_text_rect = bullet_counter_text.get_rect()
 bullet_counter_text_rect.topleft = (20,screen_height - 70)
 
-time_since_last_click_text = font_big.render(f"ReactionTime: {time_since_last_click} ms", True, "white")
-time_since_last_click_text_rect = time_since_last_click_text.get_rect()
-time_since_last_click_text_rect.center = (half_screen_width, 40)
+time_since_last_hit_text = font_big.render(f"ReactionTime: {time_since_last_hit} ms", True, "white")
+time_since_last_hit_text_rect = time_since_last_hit_text.get_rect()
+time_since_last_hit_text_rect.center = (half_screen_width, 40)
     
 # function which will pick target picture
 def pick_one():
@@ -124,20 +123,20 @@ while running_flag:
         if target.rect.collidepoint(click_x, click_y):
           random_generator_x = random.randint(70, (screen_width - 70))
           random_generator_y = random.randint(70, (screen_height - 70))
-          current_click_time = pygame.time.get_ticks()
+          current_hit_time = pygame.time.get_ticks()
           target = Target()  
 
           # Time between hits calculator
-          if last_click_time != 0:
-            time_since_last_click = current_click_time - last_click_time
-            print(time_since_last_click)
+          if last_hit_time != 0:
+            time_since_last_hit = current_hit_time - last_hit_time
+            print(time_since_last_hit)
           
           # update last click time
-          last_click_time = current_click_time
+          last_hit_time = current_hit_time
           
   # Update bullets counter text 
   bullet_counter_text = font_big.render(f"Bullets left: {bullets_counter}", True, "white")
-  time_since_last_click_text = font_big.render(f"ReactionTime: {time_since_last_click} ms", True, "white")
+  time_since_last_hit_text = font_big.render(f"ReactionTime: {time_since_last_hit} ms", True, "white")
   
   # Aiming
   player.aim()
@@ -146,7 +145,7 @@ while running_flag:
   screen.blit(background_image, background_image_rect)
   screen.blit(target.image, target.rect)
   screen.blit(player.image, player.rect)
-  screen.blit(time_since_last_click_text, time_since_last_click_text_rect)
+  screen.blit(time_since_last_hit_text, time_since_last_hit_text_rect)
   screen.blit(bullet_counter_text, bullet_counter_text_rect)
   
   # Screen update
@@ -155,7 +154,7 @@ while running_flag:
   # slowing cycle
   clock.tick(fps)
   
-  # functions from main loop
+  # functions from main loop - will be clean up someday :D
   def event_checker():
     pass
 
