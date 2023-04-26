@@ -45,10 +45,6 @@ current_hit_time = 0
 bullets_counter = 15
 time_since_last_hit = 0
 
-# Colors
-
-whitec = pygame.Color("#938f0c")
-
 # Fonts
 
 font_big = pygame.font.Font("fonts/FFF_Tusj.ttf", 50)
