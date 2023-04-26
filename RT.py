@@ -52,6 +52,10 @@ current_hit_pos_y = 0
 last_hit_pos_x = 0
 last_hit_pos_y = 0
 
+bullets_counter = 15
+fps = 60
+clock = pygame.time.Clock()
+
 # Reaction time 
 your_reaction = 0
 your_reaction_speed = 0 # MAIN OUTPUT OF THE GAME
