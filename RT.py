@@ -44,6 +44,7 @@ last_click_time = 0
 current_click_time = 0
 
 bullets_counter = 15
+time_since_last_click = 0
 
 # Colors
 
@@ -56,9 +57,13 @@ font_middle = pygame.font.Font("fonts/FFF_Tusj.ttf", 30)
 
 # Texts
 
-bullet_counter_text = font_big.render(f"Skore: {bullets_counter}", True, "white")
+bullet_counter_text = font_big.render(f"Bullets left: {bullets_counter}", True, "white")
 bullet_counter_text_rect = bullet_counter_text.get_rect()
-bullet_counter_text_rect.topright = (screen_width - 30, 20)
+bullet_counter_text_rect.topleft = (20,screen_height - 70)
+
+time_since_last_click_text = font_big.render(f"ReactionTime: {time_since_last_click} ms", True, "white")
+time_since_last_click_text_rect = time_since_last_click_text.get_rect()
+time_since_last_click_text_rect.center = (half_screen_width, 40)
     
 # function which will pick target picture
 def pick_one():
@@ -131,7 +136,8 @@ while running_flag:
           last_click_time = current_click_time
           
   # Update bullets counter text 
-  bullet_counter_text = font_big.render(f"Skore: {bullets_counter}", True, "white")
+  bullet_counter_text = font_big.render(f"Bullets left: {bullets_counter}", True, "white")
+  time_since_last_click_text = font_big.render(f"ReactionTime: {time_since_last_click} ms", True, "white")
   
   # Aiming
   player.aim()
@@ -140,6 +146,7 @@ while running_flag:
   screen.blit(background_image, background_image_rect)
   screen.blit(target.image, target.rect)
   screen.blit(player.image, player.rect)
+  screen.blit(time_since_last_click_text, time_since_last_click_text_rect)
   screen.blit(bullet_counter_text, bullet_counter_text_rect)
   
   # Screen update
