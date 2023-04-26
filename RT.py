@@ -53,8 +53,8 @@ last_hit_pos_x = 0
 last_hit_pos_y = 0
 
 # Reaction time 
-your_reaction_speed = 0
 your_reaction = 0
+your_reaction_speed = 0 # MAIN OUTPUT OF THE GAME
 
 # Colors
 
@@ -69,9 +69,9 @@ bullet_counter_text = font_big.render(f"Bullets left: {bullets_counter}", True, 
 bullet_counter_text_rect = bullet_counter_text.get_rect()
 bullet_counter_text_rect.topleft = (20,screen_height - 70)
 
-time_since_last_hit_text = font_big.render(f"ReactionTime: {time_since_last_hit} ms", True, "white")
-time_since_last_hit_text_rect = time_since_last_hit_text.get_rect()
-time_since_last_hit_text_rect.center = (half_screen_width, 40)
+your_reaction_speed_text = font_big.render(f"ReactionSpeed: {your_reaction_speed} px/s", True, "white")
+your_reaction_speed_text_rect = your_reaction_speed_text.get_rect()
+your_reaction_speed_text_rect.center = (half_screen_width, 40)
     
 # function which will pick target picture
 def pick_one():
@@ -94,7 +94,7 @@ def make_rect(image, x, y):
 def distance_calc(x,y):
   return math.sqrt(x*x + y*y)
 
-# Reaction speed
+# Reaction speed ./1000 - ms => s
 def reaction_speed(dist, time):
   return dist/(time/1000)
 
@@ -145,9 +145,9 @@ while running_flag:
           if last_hit_pos_x != 0 or last_hit_pos_y != 0:
             position_since_last_hit_x = current_hit_pos_x - last_hit_pos_x
             position_since_last_hit_y = current_hit_pos_y - last_hit_pos_y
-            distance = distance_calc(abs(position_since_last_hit_x), (position_since_last_hit_y))
+            distance = distance_calc(position_since_last_hit_x, position_since_last_hit_y)
             your_reaction = reaction_speed(distance, time_since_last_hit)
-            print(f"toto {your_reaction}")
+            print(f"toto {position_since_last_hit_x, position_since_last_hit_y}")
           
           # update last click time
           last_hit_time = current_hit_time
@@ -157,7 +157,7 @@ while running_flag:
           
   # Update bullets counter text 
   bullet_counter_text = font_big.render(f"Bullets left: {bullets_counter}", True, "white")
-  time_since_last_hit_text = font_big.render(f"ReactionTime: {time_since_last_hit} ms", True, "white")
+  your_reaction_speed_text = font_big.render(f"ReactionSpeed: {math.floor(your_reaction_speed)} px/s", True, "white")
   
   # Aiming
   player.aim()
@@ -166,7 +166,7 @@ while running_flag:
   screen.blit(background_image, background_image_rect)
   screen.blit(target.image, target.rect)
   screen.blit(player.image, player.rect)
-  screen.blit(time_since_last_hit_text, time_since_last_hit_text_rect)
+  screen.blit(your_reaction_speed_text, your_reaction_speed_text_rect)
   screen.blit(bullet_counter_text, bullet_counter_text_rect)
   
   # Screen update
