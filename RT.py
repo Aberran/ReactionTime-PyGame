@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 # Initiate game 
 
@@ -24,13 +25,14 @@ class Target(object):
     self.image = pick_one()
     self.rect = make_rect(self.image, random_generator_x, random_generator_y)
 
+
+# VARIABLES
+
 # Window settings 
 screen_width = 1200
 screen_height = 700
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Reaction Time")  
-
-# VARIABLES
 
 # Images - Target image is in generator
 player_image = pygame.image.load("img/crosshair2-600.png")
@@ -44,6 +46,15 @@ half_screen_height = screen_height//2
 last_hit_time = 0
 current_hit_time = 0
 time_since_last_hit = 0
+
+current_hit_pos_x = 0
+current_hit_pos_y = 0
+last_hit_pos_x = 0
+last_hit_pos_y = 0
+
+# Reaction time 
+your_reaction_speed = 0
+your_reaction = 0
 
 # Colors
 
@@ -78,6 +89,14 @@ def make_rect(image, x, y):
   img_rect = image.get_rect()
   img_rect.center = (x, y)
   return img_rect
+
+# Distance
+def distance_calc(x,y):
+  return math.sqrt(x*x + y*y)
+
+# Reaction speed
+def reaction_speed(dist, time):
+  return dist/(time/1000)
 
 # Background image 
 background_image_rect = make_rect(background_image, half_screen_width, half_screen_height)
@@ -114,15 +133,27 @@ while running_flag:
           random_generator_x = random.randint(70, (screen_width - 70))
           random_generator_y = random.randint(70, (screen_height - 70))
           current_hit_time = pygame.time.get_ticks()
+          current_hit_pos_x = event.pos[0]
+          current_hit_pos_y = event.pos[1]
           target = Target()  
 
           # Time between hits calculator
           if last_hit_time != 0:
             time_since_last_hit = current_hit_time - last_hit_time
-            print(time_since_last_hit)
+            
+          # Distance between targets calculation
+          if last_hit_pos_x != 0 or last_hit_pos_y != 0:
+            position_since_last_hit_x = current_hit_pos_x - last_hit_pos_x
+            position_since_last_hit_y = current_hit_pos_y - last_hit_pos_y
+            distance = distance_calc(abs(position_since_last_hit_x), (position_since_last_hit_y))
+            your_reaction = reaction_speed(distance, time_since_last_hit)
+            print(f"toto {your_reaction}")
           
           # update last click time
           last_hit_time = current_hit_time
+          last_hit_pos_x = current_hit_pos_x
+          last_hit_pos_y = current_hit_pos_y
+          your_reaction_speed = your_reaction
           
   # Update bullets counter text 
   bullet_counter_text = font_big.render(f"Bullets left: {bullets_counter}", True, "white")
