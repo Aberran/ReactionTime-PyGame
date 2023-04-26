@@ -1,11 +1,10 @@
 import pygame
 import random
-
+import time
 
 # Initiate game 
 
 pygame.init()
-
 
 # Basics of the game 
 
@@ -40,6 +39,9 @@ player_image = pygame.image.load("img/crosshair2-600.png")
 background_image = pygame.image.load("img/Jungle1.jpg")
 half_screen_width = screen_width//2
 half_screen_height = screen_height//2  
+
+last_click_time = 0
+current_click_time = 0
 
 bullets_counter = 15
 
@@ -103,6 +105,7 @@ target = Target()
 running_flag = True
 
 while running_flag:
+  # Event hendler
   for event in pygame.event.get():
       if event.type == pygame.QUIT:
         running_flag = False
@@ -112,11 +115,21 @@ while running_flag:
         click_y = event.pos[1]
         bullets_counter -= 1
         
+        # Hit check
         if target.rect.collidepoint(click_x, click_y):
           random_generator_x = random.randint(70, (screen_width - 70))
           random_generator_y = random.randint(70, (screen_height - 70))
-          target = Target()
+          current_click_time = pygame.time.get_ticks()
+          target = Target()  
 
+          # Time between hits calculator
+          if last_click_time != 0:
+            time_since_last_click = current_click_time - last_click_time
+            print(time_since_last_click)
+          
+          # update last click time
+          last_click_time = current_click_time
+          
   # Update bullets counter text 
   bullet_counter_text = font_big.render(f"Skore: {bullets_counter}", True, "white")
   
