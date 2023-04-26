@@ -5,8 +5,7 @@ import random
 
 pygame.init()
 
-# Basics of the game 
-
+# Basics of the game - Classes
 class Player(object):
   
   
@@ -26,7 +25,6 @@ class Target(object):
     self.rect = make_rect(self.image, random_generator_x, random_generator_y)
 
 # Window settings 
-
 screen_width = 1200
 screen_height = 700
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -34,24 +32,28 @@ pygame.display.set_caption("Reaction Time")
 
 # VARIABLES
 
+# Images - Target image is in generator
 player_image = pygame.image.load("img/crosshair2-600.png")
 background_image = pygame.image.load("img/Jungle1.jpg")
+
+# Center of the screen calculation
 half_screen_width = screen_width//2
 half_screen_height = screen_height//2  
 
+# Hit time variables
 last_hit_time = 0
 current_hit_time = 0
-
-bullets_counter = 15
 time_since_last_hit = 0
 
-# Fonts
+# Colors
 
+whitec = pygame.Color("#938f0c")
+
+# Fonts
 font_big = pygame.font.Font("fonts/FFF_Tusj.ttf", 50)
 font_middle = pygame.font.Font("fonts/FFF_Tusj.ttf", 30)
 
 # Texts
-
 bullet_counter_text = font_big.render(f"Bullets left: {bullets_counter}", True, "white")
 bullet_counter_text_rect = bullet_counter_text.get_rect()
 bullet_counter_text_rect.topleft = (20,screen_height - 70)
@@ -72,39 +74,31 @@ def pick_one():
     return pygame.image.load("img/target2.png")
 
 # Rect crefting funcion
-
 def make_rect(image, x, y):
   img_rect = image.get_rect()
   img_rect.center = (x, y)
   return img_rect
 
 # Background image 
-
 background_image_rect = make_rect(background_image, half_screen_width, half_screen_height)
 
-fps = 60
-clock = pygame.time.Clock()
-
 # Mouse setings
-
 pygame.mouse.set_visible(False)
 
 # Game setup
-
 random_generator_x = random.randint(70, (screen_width - 70))
 random_generator_y = random.randint(70, (screen_height - 70))
 print(random_generator_x, random_generator_y)
 
 # Creating player and targets objects
-
 player = Player()
 target = Target()
 
 # Main loop
-
 running_flag = True
 
 while running_flag:
+  
   # Event hendler
   for event in pygame.event.get():
       if event.type == pygame.QUIT:
